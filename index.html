@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Oasis Coin (OSC) - Crypto Gaming</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505; /* Deep dark outside */
+            color: #ffffff;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Hide scrollbar */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        .app-container {
+            max-width: 450px;
+            margin: 0 auto;
+            position: relative;
+            height: 100dvh;
+            overflow: hidden;
+            background-color: #0a0a0a; /* Classic Dark */
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.2s ease-out forwards;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Colors */
+        .text-theme-green { color: #00ff7f; }
+        .bg-theme-green { background-color: #00ff7f; }
+        .border-theme-green { border-color: #00ff7f; }
+        
+        .text-theme-gold { color: #ffd700; }
+        .bg-theme-gold { background-color: #ffd700; }
+        .border-theme-gold { border-color: #ffd700; }
+        
+        .bg-card { background-color: rgba(26, 26, 26, 0.7); backdrop-filter: blur(10px); }
+        .bg-card-solid { background-color: #1a1a1a; }
+
+        /* Glow effects */
+        .glow-gold { text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+        .glow-green { text-shadow: 0 0 15px rgba(0, 255, 127, 0.5); }
+        .box-glow-green { box-shadow: 0 0 15px rgba(0, 255, 127, 0.2); }
+        .box-glow-gold { box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
+
+        /* Modals (Fixed strict display behavior) */
+        .modal {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(30,30,30,0.9) 0%, rgba(15,15,15,0.95) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container flex flex-col shadow-2xl">
+        
+        <!-- ================= HEADER ================= -->
+        <header class="flex items-center justify-between p-4 z-20 shrink-0 border-b border-white/5">
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <div class="w-11 h-11 rounded-full border-[1.5px] border-theme-green flex items-center justify-center bg-[#1A1A1A] text-lg font-bold text-theme-green box-glow-green">
+                        G
+                    </div>
+                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-theme-green rounded-full border-2 border-[#0a0a0a]"></div>
+                </div>
+                <div>
+                    <h1 class="font-bold text-[15px] leading-tight text-white">Guntr_01</h1>
+                    <p class="text-[11px] text-gray-400 mt-0.5">Total: <span id="header-balance" class="text-theme-gold font-bold">15,420 OSC</span></p>
+                </div>
+            </div>
+            <button onclick="openModal('settingsModal')" class="text-gray-400 hover:text-white transition-colors w-10 h-10 flex items-center justify-center rounded-full bg-white/5">
+                <i class="fa-solid fa-gear text-lg"></i>
+            </button>
+        </header>
+
+        <!-- ================= MAIN SCROLLABLE AREA ================= -->
+        <main class="flex-1 overflow-y-auto pb-24 px-5 pt-4 relative z-10">
+            
+            <!-- ================= HOME TAB ================= -->
+            <div id="tab-home" class="tab-content active space-y-6">
+                
+                <!-- 7-Day Login Bonus -->
+                <div class="bg-card rounded-2xl p-4 border border-white/5">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                            <i class="fa-solid fa-calendar-check text-theme-green"></i> Daily Streak
+                        </h3>
+                        <span class="text-xs text-theme-gold font-bold">Day 3</span>
+                    </div>
+                    <div class="flex justify-between gap-1">
+                        <div class="flex flex-col items-center gap-1 opacity-50">
+                            <div class="w-8 h-8 rounded-lg bg-theme-green/20 flex items-center justify-center border border-theme-green/50 text-theme-green text-xs"><i class="fa-solid fa-check"></i></div>
+                            <span class="text-[9px] text-gray-400">100</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1 opacity-50">
+                            <div class="w-8 h-8 rounded-lg bg-theme-green/20 flex items-center justify-center border border-theme-green/50 text-theme-green text-xs"><i class="fa-solid fa-check"></i></div>
+                            <span class="text-[9px] text-gray-400">250</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1 scale-110 origin-bottom">
+                            <div class="w-8 h-8 rounded-lg bg-theme-green flex items-center justify-center text-black font-bold text-[10px] box-glow-green">500</div>
+                            <span class="text-[9px] text-theme-green font-bold">Today</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 text-[10px]">1K</div>
+                            <span class="text-[9px] text-gray-500">Day 4</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 text-[10px]">2.5K</div>
+                            <span class="text-[9px] text-gray-500">Day 5</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 text-[10px]">5K</div>
+                            <span class="text-[9px] text-gray-500">Day 6</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="w-8 h-8 rounded-lg bg-theme-gold/10 flex items-center justify-center border border-theme-gold/30 text-theme-gold text-[10px] font-bold">10K</div>
+                            <span class="text-[9px] text-theme-gold font-bold"><i class="fa-solid fa-gift"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daily Drop & Weekly King -->
+                <div class="flex flex-col gap-4">
+                    <!-- Daily Drop -->
+                    <div onclick="openModal('dailyDropModal')" class="bg-card rounded-2xl p-5 border border-theme-green/30 box-glow-green cursor-pointer active:scale-[0.98] transition-all relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-theme-green/10 rounded-full blur-2xl group-hover:bg-theme-green/20 transition-all pointer-events-none"></div>
+                        <div class="flex justify-between items-center relative z-10">
+                            <div>
+                                <h4 class="font-bold text-lg flex items-center gap-2">
+                                    <i class="fa-solid fa-ticket text-theme-green"></i> Daily Drop
+                                </h4>
+                                <p class="text-xs text-gray-400 mt-1">Join the lottery. Winner takes $100.</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-2xl font-black text-white">$100</p>
+                                <p class="text-[10px] text-theme-green mt-0.5">Click to enter <i class="fa-solid fa-chevron-right ml-1"></i></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Weekly King -->
+                    <div onclick="openModal('weeklyKingModal')" class="bg-card rounded-2xl p-5 border border-theme-gold/30 box-glow-gold relative overflow-hidden cursor-pointer active:scale-[0.98] transition-all group">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-theme-gold/10 rounded-full blur-2xl group-hover:bg-theme-gold/20 transition-all pointer-events-none"></div>
+                        <div class="flex justify-between items-end mb-4 relative z-10">
+                            <div>
+                                <h4 class="font-bold text-lg flex items-center gap-2">
+                                    <i class="fa-solid fa-crown text-theme-gold"></i> Weekly King
+                                </h4>
+                                <p class="text-xs text-gray-400 mt-1">Top Referrals this week.</p>
+                            </div>
+                            <p class="text-2xl font-black text-theme-gold glow-gold">$500</p>
+                        </div>
+                        
+                        <div class="flex items-center justify-center bg-black/50 rounded-xl p-3 border border-white/5 relative z-10">
+                            <div class="text-center">
+                                <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">Winner Takes All</p>
+                                <p class="text-lg font-black text-theme-gold mt-1">1st Place: $500</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= ARENA TAB ================= -->
+            <div id="tab-arena" class="tab-content space-y-5">
+                <div class="text-center pt-2 mb-4">
+                    <h2 class="text-2xl font-bold text-white glow-green">PvP Arena</h2>
+                    <p class="text-gray-400 text-sm mt-1">Play against others. Winner takes all.</p>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="bg-card rounded-2xl p-4 border border-white/5 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
+                                <i class="fa-solid fa-border-all text-2xl text-gray-300"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-white leading-tight">Checkers</h3>
+                                <p class="text-[11px] font-medium mt-1">
+                                    <span class="text-red-400">Entry: 1k+</span> <span class="text-gray-600 mx-1">|</span> <span class="text-theme-green">Prize: Up to 1.8M</span>
+                                </p>
+                            </div>
+                        </div>
+                        <button onclick="openRoomSelection('checkers')" class="bg-theme-green text-black font-bold text-sm px-6 py-2.5 rounded-xl hover:brightness-110 active:scale-95 transition-all shadow-[0_0_10px_rgba(0,255,127,0.3)]">Play</button>
+                    </div>
+
+                    <div class="bg-card rounded-2xl p-4 border border-white/5 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
+                                <i class="fa-regular fa-futbol text-2xl text-gray-300"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-white leading-tight">Penalty Shootout</h3>
+                                <p class="text-[11px] font-medium mt-1">
+                                    <span class="text-red-400">Entry: 1k+</span> <span class="text-gray-600 mx-1">|</span> <span class="text-theme-green">Prize: Up to 1.8M</span>
+                                </p>
+                            </div>
+                        </div>
+                        <button onclick="openRoomSelection('penalty')" class="bg-theme-green text-black font-bold text-sm px-6 py-2.5 rounded-xl hover:brightness-110 active:scale-95 transition-all shadow-[0_0_10px_rgba(0,255,127,0.3)]">Play</button>
+                    </div>
+
+                    <div class="bg-card rounded-2xl p-4 border border-white/5 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
+                                <i class="fa-regular fa-hand-scissors text-2xl text-gray-300"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-white leading-tight">Rock-Paper-Scissor</h3>
+                                <p class="text-[11px] font-medium mt-1">
+                                    <span class="text-red-400">Entry: 1k+</span> <span class="text-gray-600 mx-1">|</span> <span class="text-theme-green">Prize: Up to 1.8M</span>
+                                </p>
+                            </div>
+                        </div>
+                        <button onclick="openRoomSelection('rps')" class="bg-theme-green text-black font-bold text-sm px-6 py-2.5 rounded-xl hover:brightness-110 active:scale-95 transition-all shadow-[0_0_10px_rgba(0,255,127,0.3)]">Play</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= STORE TAB ================= -->
+            <div id="tab-store" class="tab-content space-y-5">
+                <div class="text-center pt-2 mb-2">
+                    <h2 class="text-2xl font-bold text-white glow-gold">Black Market</h2>
+                    <p class="text-theme-gold text-xs mt-2 font-medium bg-theme-gold/10 inline-block px-3 py-1.5 rounded-full border border-theme-gold/20">
+                        <i class="fa-solid fa-fire mr-1"></i> Limited edition skins. Minted as NFTs.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-card rounded-2xl p-3 border border-red-500/30 relative opacity-70 grayscale">
+                        <div class="absolute top-2 right-2 bg-red-500/20 text-red-500 text-[9px] font-bold px-2 py-0.5 rounded border border-red-500/50 uppercase">Sold Out</div>
+                        <div class="w-full h-24 bg-[#111] rounded-xl mb-3 flex items-center justify-center border border-white/5">
+                            <i class="fa-solid fa-border-all text-4xl text-theme-green/50"></i>
+                        </div>
+                        <h4 class="font-bold text-xs text-white leading-tight">Neon Cyberpunk Checkers</h4>
+                        <p class="text-[10px] text-gray-500 mt-1">Supply: 5,000/5,000</p>
+                        <div class="mt-3 bg-white/5 text-center py-1.5 rounded-lg text-xs font-bold text-gray-500">Unavailable</div>
+                    </div>
+
+                    <div class="bg-card rounded-2xl p-3 border border-theme-gold/50 relative box-glow-gold">
+                        <div class="w-full h-24 bg-[#111] rounded-xl mb-3 flex items-center justify-center border border-white/5 relative overflow-hidden">
+                            <div class="absolute inset-0 bg-theme-gold/10 blur-xl"></div>
+                            <i class="fa-solid fa-futbol text-4xl text-theme-gold relative z-10 drop-shadow-[0_0_10px_rgba(255,215,0,0.8)]"></i>
+                        </div>
+                        <h4 class="font-bold text-xs text-white leading-tight">Golden Penalty Ball</h4>
+                        <div class="w-full bg-black rounded-full h-1.5 mt-2">
+                            <div class="h-1.5 rounded-full bg-theme-gold" style="width: 95%"></div>
+                        </div>
+                        <p class="text-[10px] text-gray-400 mt-1">Only <span class="text-theme-gold font-bold">240</span> / 5,000 left</p>
+                        <button class="mt-3 w-full bg-theme-gold text-black py-1.5 rounded-lg text-xs font-bold hover:bg-yellow-400 active:scale-95 transition-all shadow-[0_0_8px_rgba(255,215,0,0.5)]">
+                            Buy (2.5M OSC)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TASKS TAB ================= -->
+            <div id="tab-tasks" class="tab-content space-y-5">
+                <div class="text-center pt-2 mb-4">
+                    <h2 class="text-2xl font-bold text-white">Missions</h2>
+                    <p class="text-gray-400 text-sm mt-1">Complete tasks to gather one-time OSC rewards.</p>
+                </div>
+
+                <div class="space-y-2">
+                    <div class="bg-card p-3 rounded-2xl flex items-center gap-4 border border-white/5">
+                        <div class="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center shrink-0 border border-blue-500/20">
+                            <i class="fa-brands fa-telegram text-xl text-blue-400"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-sm">Join Oasis Channel</h3>
+                            <p class="text-theme-gold font-semibold text-xs mt-0.5">+1,000 OSC</p>
+                        </div>
+                        <button class="bg-white/10 text-white font-medium text-xs px-4 py-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all">Go</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= FRIENDS TAB ================= -->
+            <div id="tab-friends" class="tab-content space-y-6">
+                <div class="text-center pt-2">
+                    <h2 class="text-2xl font-bold text-white">Alliance</h2>
+                    <p class="text-gray-400 text-sm mt-1">Build your network, earn together.</p>
+                </div>
+
+                <button onclick="copyLink()" id="copy-btn" class="w-full py-3.5 rounded-2xl border border-theme-green bg-theme-green/10 text-theme-green font-bold text-base hover:bg-theme-green/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 box-glow-green">
+                    <i class="fa-solid fa-link"></i> <span id="copy-text">Copy Invite Link</span>
+                </button>
+
+                <div>
+                    <div class="flex bg-black rounded-xl p-1 mb-4 border border-white/5">
+                        <button id="btn-lb-referrals" onclick="toggleLeaderboard('referrals')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-white/10 text-white transition-all">Top Referrals</button>
+                        <button id="btn-lb-earners" onclick="toggleLeaderboard('earners')" class="flex-1 py-2 text-xs font-bold rounded-lg text-gray-500 hover:text-white transition-all">Top Earners</button>
+                    </div>
+                    
+                    <h3 class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3 px-1">Top 100 Global</h3>
+                    <div class="space-y-2 bg-card p-2 rounded-2xl border border-white/5">
+                        <div class="flex items-center gap-3 p-2 rounded-xl bg-white/5 border border-white/5">
+                            <span class="text-theme-gold font-bold w-4 text-center text-xs">1</span>
+                            <div class="w-8 h-8 rounded-full bg-[#222] flex items-center justify-center text-white text-xs font-bold border border-white/10">C</div>
+                            <span class="flex-1 font-bold text-sm">CryptoBaron</span>
+                            <span class="text-theme-green text-xs font-bold lb-value">1,405 refs</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-2">
+                            <span class="text-gray-400 font-bold w-4 text-center text-xs">2</span>
+                            <div class="w-8 h-8 rounded-full bg-[#222] flex items-center justify-center text-white text-xs font-bold border border-white/10">W</div>
+                            <span class="flex-1 font-bold text-sm">WhaleHunter</span>
+                            <span class="text-theme-green text-xs font-bold lb-value">982 refs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- ================= BOTTOM NAVIGATION ================= -->
+        <nav class="absolute bottom-0 left-0 w-full bg-[#0a0a0a]/95 backdrop-blur-xl border-t border-white/10 z-30 px-2 py-2 pb-safe shadow-[0_-10px_30px_rgba(0,0,0,0.8)]">
+            <div class="flex justify-between items-center max-w-[400px] mx-auto">
+                <button onclick="switchTab('home')" id="nav-home" class="nav-btn flex flex-col items-center justify-center gap-1 text-theme-green w-14 h-12 transition-colors">
+                    <i class="fa-solid fa-house text-lg"></i>
+                    <span class="text-[9px] font-semibold">Home</span>
+                </button>
+                <button onclick="switchTab('arena')" id="nav-arena" class="nav-btn flex flex-col items-center justify-center gap-1 text-gray-500 hover:text-gray-300 w-14 h-12 transition-colors">
+                    <i class="fa-solid fa-gamepad text-lg"></i>
+                    <span class="text-[9px] font-semibold">Arena</span>
+                </button>
+                <button onclick="switchTab('store')" id="nav-store" class="nav-btn flex flex-col items-center justify-center gap-1 text-gray-500 hover:text-gray-300 w-14 h-12 transition-colors relative">
+                    <div class="absolute top-0 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-[#0a0a0a]"></div>
+                    <i class="fa-solid fa-store text-lg"></i>
+                    <span class="text-[9px] font-semibold">Store</span>
+                </button>
+                <button onclick="switchTab('tasks')" id="nav-tasks" class="nav-btn flex flex-col items-center justify-center gap-1 text-gray-500 hover:text-gray-300 w-14 h-12 transition-colors">
+                    <i class="fa-solid fa-list-check text-lg"></i>
+                    <span class="text-[9px] font-semibold">Tasks</span>
+                </button>
+                <button onclick="switchTab('friends')" id="nav-friends" class="nav-btn flex flex-col items-center justify-center gap-1 text-gray-500 hover:text-gray-300 w-14 h-12 transition-colors">
+                    <i class="fa-solid fa-user-group text-lg"></i>
+                    <span class="text-[9px] font-semibold">Friends</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- ================= MODALS ================= -->
+
+        <!-- 1. Daily Drop Modal -->
+        <div id="dailyDropModal" class="modal fixed inset-0 z-50 items-end sm:items-center justify-center px-0 sm:px-4 pb-0 sm:pb-4">
+            <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal('dailyDropModal')"></div>
+            <div class="glass-panel w-full sm:w-[400px] max-h-[90dvh] rounded-t-3xl sm:rounded-3xl relative z-10 flex flex-col overflow-hidden animate-[fadeIn_0.3s_ease-out]">
+                <div class="p-5 overflow-y-auto">
+                    <button onclick="closeModal('dailyDropModal')" class="absolute top-4 right-4 w-8 h-8 bg-white/10 rounded-full flex items-center justify-center text-gray-300 hover:text-white hover:bg-white/20">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-theme-green/10 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-theme-green/30 box-glow-green">
+                            <i class="fa-solid fa-ticket text-3xl text-theme-green"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white">Daily Drop</h2>
+                        <p class="text-gray-400 text-sm mt-1">Win $100 everyday at 22:00.</p>
+                        
+                        <div class="mt-4 bg-black/50 border border-white/5 rounded-xl py-3 px-4 inline-block">
+                            <p class="text-[10px] uppercase text-gray-500 font-bold mb-1 tracking-wider">Next Draw In</p>
+                            <p id="countdown" class="text-xl font-black text-theme-gold glow-gold tracking-widest">04:15:22</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-5">
+                        <!-- Rules -->
+                        <div>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">How to get tickets</h3>
+                            <div class="bg-black/40 rounded-xl p-3 border border-white/5 space-y-2">
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-300"><i class="fa-solid fa-user-plus w-5 text-gray-500"></i> 1 Invite</span>
+                                    <span class="text-theme-green font-bold">+1 Ticket</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-300"><i class="fa-solid fa-gamepad w-5 text-gray-500"></i> 10 Games Played</span>
+                                    <span class="text-theme-green font-bold">+1 Ticket</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-300"><i class="fa-solid fa-trophy w-5 text-gray-500"></i> 5 Arena Wins</span>
+                                    <span class="text-theme-green font-bold">+1 Ticket</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- My Tickets -->
+                        <div>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">My Tickets Today</h3>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="bg-theme-green/10 border border-theme-green/30 rounded-lg py-2 px-3 flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-ticket text-theme-green text-xs"></i>
+                                    <span class="font-mono text-sm font-bold text-white tracking-wider">8F3X9A2K</span>
+                                </div>
+                                <div class="bg-theme-green/10 border border-theme-green/30 rounded-lg py-2 px-3 flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-ticket text-theme-green text-xs"></i>
+                                    <span class="font-mono text-sm font-bold text-white tracking-wider">X9B2P4L1</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Previous Winners -->
+                        <div>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">Previous Winners</h3>
+                            <div class="space-y-2">
+                                <div class="bg-black/40 rounded-xl p-2.5 border border-white/5 flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-xs">S</div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-bold text-white leading-tight">Shadow_X</p>
+                                        <p class="text-[10px] font-mono text-theme-gold mt-0.5">🎫 K2M9X1P8</p>
+                                    </div>
+                                    <button class="w-8 h-8 bg-white/5 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition-colors">
+                                        <i class="fa-regular fa-comment"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- [BUG FIXED]: THIS CLOSING DIV WAS PREVIOUSLY MISSING, BREAKING DOM STRUCTURE -->
+
+        <!-- 2. Weekly King Modal -->
+        <div id="weeklyKingModal" class="modal fixed inset-0 z-50 items-end sm:items-center justify-center px-0 sm:px-4 pb-0 sm:pb-4">
+            <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal('weeklyKingModal')"></div>
+            <div class="glass-panel w-full sm:w-[400px] max-h-[90dvh] rounded-t-3xl sm:rounded-3xl relative z-10 flex flex-col overflow-hidden animate-[fadeIn_0.3s_ease-out] h-[85dvh]">
+                
+                <div class="p-5 pb-3 border-b border-white/10 shrink-0 relative">
+                    <button onclick="closeModal('weeklyKingModal')" class="absolute top-4 right-4 w-8 h-8 bg-white/10 rounded-full flex items-center justify-center text-gray-300 hover:text-white hover:bg-white/20 z-20">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <div class="text-center mb-4 mt-2">
+                        <h2 class="text-2xl font-bold text-theme-gold glow-gold">Weekly King</h2>
+                        <p class="text-gray-400 text-sm mt-1">Top Referrals Leaderboard</p>
+                    </div>
+                    
+                    <div class="flex bg-black/50 rounded-xl p-1 border border-white/5">
+                        <button id="btn-wk-current" onclick="switchWeeklyTab('current')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-white/10 text-white transition-all">Current Top 100</button>
+                        <button id="btn-wk-past" onclick="switchWeeklyTab('past')" class="flex-1 py-2 text-xs font-bold rounded-lg text-gray-500 hover:text-white transition-all">Past Winners</button>
+                    </div>
+                </div>
+
+                <div class="flex-1 overflow-y-auto p-4 bg-black/20" id="wk-content">
+                    <div id="wk-tab-current" class="space-y-2">
+                        <div class="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-theme-gold/30 box-glow-gold relative overflow-hidden">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-theme-gold"></div>
+                            <span class="text-theme-gold font-black w-6 text-center text-sm">1</span>
+                            <div class="w-9 h-9 rounded-full bg-theme-gold/20 flex items-center justify-center text-theme-gold text-sm font-bold border border-theme-gold/50">C</div>
+                            <span class="flex-1 font-bold text-base text-white">CryptoBaron</span>
+                            <span class="text-theme-green text-sm font-bold">1,405</span>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-transparent">
+                            <span class="text-gray-500 font-bold w-6 text-center text-xs">4</span>
+                            <div class="w-8 h-8 rounded-full bg-[#111] flex items-center justify-center text-gray-400 text-xs font-bold">N</div>
+                            <span class="flex-1 font-medium text-sm text-gray-300">NeoMatrix</span>
+                            <span class="text-theme-green text-xs font-bold">610</span>
+                        </div>
+                    </div>
+
+                    <div id="wk-tab-past" class="hidden space-y-3">
+                        <div class="bg-card rounded-xl p-4 border border-white/5">
+                            <div class="flex justify-between items-center mb-3 pb-2 border-b border-white/5">
+                                <span class="text-xs text-gray-400 font-bold">Week 42</span>
+                                <span class="text-xs text-theme-gold font-bold">Prize Pool: $500</span>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-theme-gold font-bold text-xs w-4">1</span>
+                                    <span class="flex-1 text-sm font-bold text-white">Shadow_X</span>
+                                    <a href="#" class="bg-blue-500/20 text-blue-400 text-[10px] px-3 py-1.5 rounded-lg border border-blue-500/30 font-bold flex items-center gap-1 hover:bg-blue-500/30 transition-colors">
+                                        <i class="fa-brands fa-telegram"></i> Message
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-[#111] border-t border-white/10 shrink-0 relative z-20 shadow-[0_-10px_20px_rgba(0,0,0,0.5)]">
+                    <div class="flex items-center gap-3 bg-theme-green/10 border border-theme-green/30 rounded-xl p-3 box-glow-green">
+                        <span class="text-gray-400 font-bold text-xs">#1,402</span>
+                        <div class="w-8 h-8 rounded-full border-[1.5px] border-theme-green flex items-center justify-center bg-[#1A1A1A] text-xs font-bold text-theme-green">G</div>
+                        <span class="flex-1 font-bold text-sm text-white">Guntr_01 (You)</span>
+                        <span class="text-theme-green text-sm font-bold">24</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Room Selection Modal -->
+        <div id="roomSelectionModal" class="modal fixed inset-0 z-50 items-end sm:items-center justify-center px-0 sm:px-4 pb-0 sm:pb-4">
+            <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal('roomSelectionModal')"></div>
+            <div class="glass-panel w-full sm:w-[400px] max-h-[90dvh] rounded-t-3xl sm:rounded-3xl relative z-10 flex flex-col overflow-hidden animate-[fadeIn_0.3s_ease-out]">
+                
+                <div class="p-5 pb-3 border-b border-white/10 shrink-0 relative">
+                    <button onclick="closeModal('roomSelectionModal')" class="absolute top-4 right-4 w-8 h-8 bg-white/10 rounded-full flex items-center justify-center text-gray-300 hover:text-white hover:bg-white/20 z-20">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <div class="text-center mb-2 mt-2">
+                        <h2 class="text-2xl font-bold text-white">Select Tier</h2>
+                        <p class="text-gray-400 text-sm mt-1">Choose your room to begin.</p>
+                    </div>
+                </div>
+
+                <div class="p-4 overflow-y-auto space-y-3 pb-6">
+                    <div onclick="startMatchmaking(1000, 1800)" class="bg-card rounded-2xl p-4 border border-[#cd7f32]/50 relative overflow-hidden flex items-center justify-between cursor-pointer hover:bg-white/5 active:scale-[0.98] transition-all">
+                        <div class="absolute inset-0 bg-gradient-to-r from-[#cd7f32]/10 to-transparent pointer-events-none"></div>
+                        <div>
+                            <h3 class="font-bold text-base text-[#cd7f32] flex items-center gap-2"><i class="fa-solid fa-medal"></i> Bronze Room</h3>
+                            <div class="text-[11px] mt-1 font-medium flex gap-3">
+                                <div><span class="text-gray-500">Entry:</span> <span class="text-white">1,000 OSC</span></div>
+                                <div><span class="text-gray-500">Prize:</span> <span class="text-theme-green">1,800 OSC</span></div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-500"></i>
+                    </div>
+
+                    <div onclick="startMatchmaking(10000, 18000)" class="bg-card rounded-2xl p-4 border border-[#C0C0C0]/50 relative overflow-hidden flex items-center justify-between cursor-pointer hover:bg-white/5 active:scale-[0.98] transition-all">
+                        <div class="absolute inset-0 bg-gradient-to-r from-[#C0C0C0]/10 to-transparent pointer-events-none"></div>
+                        <div>
+                            <h3 class="font-bold text-base text-[#C0C0C0] flex items-center gap-2"><i class="fa-solid fa-medal"></i> Silver Room</h3>
+                            <div class="text-[11px] mt-1 font-medium flex gap-3">
+                                <div><span class="text-gray-500">Entry:</span> <span class="text-white">10,000 OSC</span></div>
+                                <div><span class="text-gray-500">Prize:</span> <span class="text-theme-green">18,000 OSC</span></div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-500"></i>
+                    </div>
+
+                    <div onclick="startMatchmaking(50000, 90000)" class="bg-card rounded-2xl p-4 border border-theme-gold/50 relative overflow-hidden flex items-center justify-between cursor-pointer hover:bg-white/5 active:scale-[0.98] transition-all box-glow-gold">
+                        <div class="absolute inset-0 bg-gradient-to-r from-theme-gold/10 to-transparent pointer-events-none"></div>
+                        <div>
+                            <h3 class="font-bold text-base text-theme-gold flex items-center gap-2"><i class="fa-solid fa-medal"></i> Gold Room</h3>
+                            <div class="text-[11px] mt-1 font-medium flex gap-3">
+                                <div><span class="text-gray-500">Entry:</span> <span class="text-white">50,000 OSC</span></div>
+                                <div><span class="text-gray-500">Prize:</span> <span class="text-theme-green">90,000 OSC</span></div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-theme-gold"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Game Overlays -->
+        <!-- Adding strict display classes to ensure they don't block main UI clicks when hidden -->
+        <div id="gameOverlay" class="fixed inset-0 z-[100] hidden bg-[#050505]/95 backdrop-blur-xl flex-col items-center justify-center p-4">
+            
+            <!-- Matchmaking -->
+            <div id="matchmakingScreen" class="hidden flex-col items-center justify-center w-full h-full text-center">
+                <div class="w-20 h-20 border-4 border-white/10 border-t-theme-green rounded-full animate-spin mb-6"></div>
+                <h2 class="text-2xl font-bold text-white mb-2">Searching for Opponent...</h2>
+                <p class="text-gray-400 text-sm">Finding best match for your skill tier</p>
+                <div class="mt-8 px-4 py-2 bg-theme-green/10 text-theme-green rounded-lg border border-theme-green/30 text-xs">
+                    Estimated wait: 0:03
+                </div>
+            </div>
+            
+            <!-- Rock Paper Scissors Game -->
+            <div id="rpsScreen" class="hidden flex-col items-center w-full h-full pt-16">
+                <div class="flex justify-between w-full px-6 mb-16">
+                    <div class="text-center">
+                        <div class="w-14 h-14 rounded-full border-[3px] border-theme-green bg-[#111] flex items-center justify-center font-bold text-theme-green mx-auto box-glow-green">G</div>
+                        <p class="mt-3 font-bold text-white text-sm">Guntr_01</p>
+                    </div>
+                    <div class="text-center text-gray-500 font-bold text-2xl flex items-center">VS</div>
+                    <div class="text-center">
+                        <div id="rpsBotInitial" class="w-14 h-14 rounded-full border-[3px] border-red-500 bg-[#111] flex items-center justify-center font-bold text-red-500 mx-auto">B</div>
+                        <p class="mt-3 font-bold text-white text-sm" id="rpsOpponentName">Shadow</p>
+                    </div>
+                </div>
+                
+                <div id="rpsResultArea" class="h-32 flex flex-col items-center justify-center w-full mb-12">
+                    <h3 class="text-3xl font-black text-white mb-2 tracking-wide">Make Your Move</h3>
+                    <p class="text-gray-400 font-medium">Prize Pool: <span id="rpsPrizeDisplay" class="text-theme-gold font-bold">1.8k</span> OSC</p>
+                </div>
+
+                <div id="rpsControls" class="grid grid-cols-3 gap-6 w-full max-w-[320px]">
+                    <button onclick="playRPS('rock')" class="bg-[#1a1a1a] border-[1.5px] border-white/10 rounded-3xl p-6 text-5xl hover:bg-white/10 hover:border-white/30 hover:scale-105 active:scale-95 shadow-xl transition-all">🪨</button>
+                    <button onclick="playRPS('paper')" class="bg-[#1a1a1a] border-[1.5px] border-white/10 rounded-3xl p-6 text-5xl hover:bg-white/10 hover:border-white/30 hover:scale-105 active:scale-95 shadow-xl transition-all">📄</button>
+                    <button onclick="playRPS('scissors')" class="bg-[#1a1a1a] border-[1.5px] border-white/10 rounded-3xl p-6 text-5xl hover:bg-white/10 hover:border-white/30 hover:scale-105 active:scale-95 shadow-xl transition-all">✂️</button>
+                </div>
+                
+                <button id="rpsExitBtn" onclick="exitGame()" class="hidden mt-16 bg-white/10 text-white px-10 py-3.5 rounded-xl font-bold hover:bg-white/20 active:scale-95 transition-all border border-white/20 text-lg">Leave Arena</button>
+            </div>
+
+            <!-- Penalty Game -->
+            <div id="penaltyScreen" class="hidden flex-col items-center w-full h-full pt-16">
+                <div class="flex justify-between w-full px-8 mb-8">
+                    <div class="text-center text-sm font-bold text-theme-green bg-theme-green/10 px-4 py-1.5 rounded-lg border border-theme-green/30">You: Striker</div>
+                    <div class="text-center text-sm font-bold text-red-500 bg-red-500/10 px-4 py-1.5 rounded-lg border border-red-500/30">Bot: Goalie</div>
+                </div>
+                <div id="penaltyResultArea" class="h-16 flex flex-col items-center justify-center w-full mb-8">
+                    <h3 class="text-2xl font-black text-white">Choose Target</h3>
+                    <p class="text-gray-400 text-xs mt-1">Tap to kick.</p>
+                </div>
+                <div class="relative w-full max-w-[340px] aspect-[2/1] border-[5px] border-white rounded-t-xl bg-[#2e8b57] overflow-hidden flex items-end shadow-2xl">
+                    <div class="absolute inset-0 opacity-30" style="background-image: linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff); background-size: 24px 24px; background-position: 0 0, 12px 12px;"></div>
+                    <div id="goalie" class="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 h-20 bg-red-500 rounded-t-2xl transition-all duration-[400ms] ease-out z-10 flex items-center justify-center shadow-[0_0_20px_rgba(239,68,68,0.6)]">
+                        <i class="fa-solid fa-hands text-white text-2xl"></i>
+                    </div>
+                </div>
+                <div id="penaltyControls" class="grid grid-cols-3 gap-5 w-full max-w-[340px] mt-10">
+                    <button onclick="playPenalty('left')" class="bg-[#1a1a1a] border-[1.5px] border-white/10 rounded-2xl py-5 flex flex-col items-center hover:bg-white/10 active:scale-95 transition-all shadow-lg">
+                        <i class="fa-solid fa-arrow-turn-up -scale-x-100 text-3xl mb-2 text-theme-green"></i>
+                        <span class="text-xs font-bold text-gray-300 mt-1">Left</span>
+                    </button>
+                    <button onclick="playPenalty('center')" class="bg-[#1a1a1a] border-[1.5px] border-white/10 rounded-2xl py-5 flex flex-col items-center hover:bg-white/10 active:scale-95 transition-all shadow-lg">
+                        <i class="fa-solid fa-arrow-up text-3xl mb-2 text-theme-green"></i>
+                        <span class="text-xs font-bold text-gray-300 mt-1">Center</span>
+                    </button>
+                    <button onclick="playPenalty('right')" class="bg-[#1a1a1a] border-[1.5px] border-white/10 rounded-2xl py-5 flex flex-col items-center hover:bg-white/10 active:scale-95 transition-all shadow-lg">
+                        <i class="fa-solid fa-arrow-turn-up text-3xl mb-2 text-theme-green"></i>
+                        <span class="text-xs font-bold text-gray-300 mt-1">Right</span>
+                    </button>
+                </div>
+                <button id="penaltyExitBtn" onclick="exitGame()" class="hidden mt-12 bg-white/10 text-white px-10 py-3.5 rounded-xl font-bold hover:bg-white/20 active:scale-95 transition-all border border-white/20 text-lg">Leave Arena</button>
+            </div>
+
+            <!-- Checkers Sim -->
+            <div id="checkersScreen" class="hidden flex-col items-center justify-center w-full h-full text-center px-6">
+                <div class="w-32 h-32 bg-[#1a1a1a] rounded-3xl border border-white/10 flex items-center justify-center mb-8 shadow-2xl relative overflow-hidden">
+                    <div class="absolute inset-0 bg-theme-green/5 blur-xl animate-pulse"></div>
+                    <i class="fa-solid fa-border-all text-6xl text-theme-green opacity-90 relative z-10"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-white mb-2 tracking-wide">Simulating Match...</h2>
+                <p class="text-gray-400 text-base mb-10" id="checkersOpponentText">Playing against EliteBot</p>
+                <div class="w-full max-w-[300px] bg-black rounded-full h-3 border border-white/10 overflow-hidden relative shadow-inner">
+                    <div id="checkersProgress" class="h-full bg-theme-green w-0 transition-all duration-[3000ms] ease-linear box-glow-green"></div>
+                </div>
+                <div id="checkersResult" class="mt-10 text-xl font-bold hidden flex-col items-center gap-4"></div>
+                <button id="checkersExitBtn" onclick="exitGame()" class="hidden mt-10 bg-white/10 text-white px-10 py-3.5 rounded-xl font-bold hover:bg-white/20 active:scale-95 transition-all border border-white/20 text-lg">Leave Arena</button>
+            </div>
+            
+        </div>
+
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let userBalance = 15420;
+        let currentGame = '';
+        let currentEntry = 0;
+        let currentPrize = 0;
+
+        function updateBalanceDisplay() {
+            document.getElementById('header-balance').innerText = userBalance.toLocaleString() + ' OSC';
+        }
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+        }
+
+        function openRoomSelection(gameId) {
+            currentGame = gameId;
+            openModal('roomSelectionModal');
+        }
+
+        function startMatchmaking(entry, prize) {
+            if (userBalance < entry) {
+                alert("Insufficient OSC balance for this tier!");
+                return;
+            }
+            
+            userBalance -= entry;
+            updateBalanceDisplay();
+            
+            currentEntry = entry;
+            currentPrize = prize;
+            
+            closeModal('roomSelectionModal');
+            
+            const overlay = document.getElementById('gameOverlay');
+            const matchScreen = document.getElementById('matchmakingScreen');
+            
+            // Show main overlay via flex
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+            
+            matchScreen.classList.remove('hidden');
+            matchScreen.classList.add('flex');
+            
+            resetGameScreens();
+
+            setTimeout(() => {
+                matchScreen.classList.remove('flex');
+                matchScreen.classList.add('hidden');
+                
+                const botNames = ["Shadow_X", "Rex_M", "AlphaBot", "NeoMatrix", "ZeroCool", "CryptoNinja"];
+                const randomBot = botNames[Math.floor(Math.random() * botNames.length)];
+                
+                if (currentGame === 'rps') {
+                    const rps = document.getElementById('rpsScreen');
+                    rps.classList.remove('hidden');
+                    rps.classList.add('flex');
+                    document.getElementById('rpsOpponentName').innerText = randomBot;
+                    document.getElementById('rpsBotInitial').innerText = randomBot.charAt(0);
+                    document.getElementById('rpsPrizeDisplay').innerText = (prize >= 1000 ? (prize/1000) + 'k' : prize);
+                } else if (currentGame === 'penalty') {
+                    const pen = document.getElementById('penaltyScreen');
+                    pen.classList.remove('hidden');
+                    pen.classList.add('flex');
+                } else if (currentGame === 'checkers') {
+                    const chk = document.getElementById('checkersScreen');
+                    chk.classList.remove('hidden');
+                    chk.classList.add('flex');
+                    document.getElementById('checkersOpponentText').innerText = `Versus ${randomBot} (Tier: ${currentEntry/1000}k)`;
+                    runCheckersSimulation();
+                }
+            }, 2500);
+        }
+
+        function resetGameScreens() {
+            document.getElementById('rpsControls').classList.remove('hidden');
+            document.getElementById('rpsResultArea').innerHTML = `<h3 class="text-3xl font-black text-white mb-2 tracking-wide">Make Your Move</h3><p class="text-gray-400 font-medium">Prize Pool: <span class="text-theme-gold font-bold">${currentPrize >= 1000 ? currentPrize/1000 + 'k' : currentPrize}</span> OSC</p>`;
+            document.getElementById('rpsExitBtn').classList.add('hidden');
+            
+            document.getElementById('penaltyControls').classList.remove('hidden');
+            document.getElementById('goalie').style.transform = 'translate(-50%, 0)';
+            document.getElementById('penaltyResultArea').innerHTML = `<h3 class="text-2xl font-black text-white">Choose Target</h3><p class="text-gray-400 text-xs mt-1">Tap to kick.</p>`;
+            document.getElementById('penaltyExitBtn').classList.add('hidden');
+            
+            document.getElementById('checkersProgress').style.width = '0%';
+            document.getElementById('checkersResult').classList.add('hidden');
+            document.getElementById('checkersResult').innerHTML = '';
+            document.getElementById('checkersExitBtn').classList.add('hidden');
+        }
+
+        function exitGame() {
+            document.getElementById('gameOverlay').classList.remove('flex');
+            document.getElementById('gameOverlay').classList.add('hidden');
+            
+            document.getElementById(`${currentGame}Screen`).classList.remove('flex');
+            document.getElementById(`${currentGame}Screen`).classList.add('hidden');
+        }
+
+        function playRPS(playerChoice) {
+            document.getElementById('rpsControls').classList.add('hidden');
+            const choices = ['rock', 'paper', 'scissors'];
+            const botChoice = choices[Math.floor(Math.random() * choices.length)];
+            const emojis = { rock: '🪨', paper: '📄', scissors: '✂️' };
+            
+            let result = '';
+            if (playerChoice === botChoice) {
+                result = 'draw';
+                userBalance += currentEntry;
+            } else if (
+                (playerChoice === 'rock' && botChoice === 'scissors') ||
+                (playerChoice === 'paper' && botChoice === 'rock') ||
+                (playerChoice === 'scissors' && botChoice === 'paper')
+            ) {
+                result = 'win';
+                userBalance += currentPrize;
+            } else {
+                result = 'lose';
+            }
+            updateBalanceDisplay();
+            
+            let resultHtml = `<div class="flex items-center gap-8 text-5xl mb-6">
+                <div class="drop-shadow-lg scale-110">${emojis[playerChoice]}</div>
+                <div class="text-base font-bold text-gray-500 tracking-widest">VS</div>
+                <div class="drop-shadow-lg opacity-90">${emojis[botChoice]}</div>
+            </div>`;
+            
+            if (result === 'win') {
+                resultHtml += `<h3 class="text-3xl font-black text-theme-green glow-green uppercase tracking-wide">Victory!</h3><p class="text-theme-gold font-bold mt-1 text-lg">+${currentPrize.toLocaleString()} OSC</p>`;
+            } else if (result === 'lose') {
+                resultHtml += `<h3 class="text-3xl font-black text-red-500 uppercase tracking-wide">Defeat</h3><p class="text-gray-400 mt-1">-${currentEntry.toLocaleString()} OSC</p>`;
+            } else {
+                resultHtml += `<h3 class="text-3xl font-black text-gray-300 uppercase tracking-wide">Draw</h3><p class="text-gray-400 mt-1">Entry Refunded</p>`;
+            }
+            
+            document.getElementById('rpsResultArea').innerHTML = resultHtml;
+            document.getElementById('rpsExitBtn').classList.remove('hidden');
+        }
+
+        function playPenalty(playerChoice) {
+            document.getElementById('penaltyControls').classList.add('hidden');
+            const choices = ['left', 'center', 'right'];
+            const botChoice = choices[Math.floor(Math.random() * choices.length)];
+            
+            const goalie = document.getElementById('goalie');
+            if(botChoice === 'left') goalie.style.transform = 'translate(-220%, 10%) rotate(-45deg)';
+            else if(botChoice === 'right') goalie.style.transform = 'translate(120%, 10%) rotate(45deg)';
+            else goalie.style.transform = 'translate(-50%, -20%)';
+            
+            setTimeout(() => {
+                let resultHtml = '';
+                if (playerChoice === botChoice) {
+                    resultHtml = `<h3 class="text-3xl font-black text-red-500 uppercase tracking-wide drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]">Saved!</h3><p class="text-gray-400 font-medium mt-1">-${currentEntry.toLocaleString()} OSC</p>`;
+                } else {
+                    userBalance += currentPrize;
+                    resultHtml = `<h3 class="text-3xl font-black text-theme-green glow-green uppercase tracking-wide">Goal!</h3><p class="text-theme-gold font-bold mt-1 text-lg">+${currentPrize.toLocaleString()} OSC</p>`;
+                }
+                updateBalanceDisplay();
+                document.getElementById('penaltyResultArea').innerHTML = resultHtml;
+                document.getElementById('penaltyExitBtn').classList.remove('hidden');
+            }, 600);
+        }
+
+        function runCheckersSimulation() {
+            setTimeout(() => {
+                document.getElementById('checkersProgress').style.width = '100%';
+            }, 50);
+            
+            setTimeout(() => {
+                const isWin = Math.random() > 0.5;
+                const resultBox = document.getElementById('checkersResult');
+                resultBox.classList.remove('hidden');
+                resultBox.classList.add('flex');
+                
+                if(isWin) {
+                    userBalance += currentPrize;
+                    resultBox.innerHTML = `<span class="text-5xl mb-2 drop-shadow-[0_0_15px_rgba(255,215,0,0.6)]">🏆</span><h3 class="text-3xl font-black text-theme-green glow-green uppercase tracking-wide">Victory!</h3><p class="text-theme-gold font-bold text-lg mt-1">+${currentPrize.toLocaleString()} OSC</p>`;
+                } else {
+                    resultBox.innerHTML = `<span class="text-5xl mb-2 opacity-80 grayscale">💀</span><h3 class="text-3xl font-black text-red-500 uppercase tracking-wide">Defeat</h3><p class="text-gray-400 text-lg mt-1">-${currentEntry.toLocaleString()} OSC</p>`;
+                }
+                updateBalanceDisplay();
+                document.getElementById('checkersExitBtn').classList.remove('hidden');
+            }, 3000);
+        }
+
+        // Navigation
+        function switchTab(targetTab) {
+            const tabs = ['home', 'arena', 'store', 'tasks', 'friends'];
+            tabs.forEach(tab => {
+                document.getElementById(`tab-${tab}`).classList.remove('active');
+                const navBtn = document.getElementById(`nav-${tab}`);
+                navBtn.classList.remove('text-theme-green');
+                navBtn.classList.add('text-gray-500');
+            });
+            document.getElementById(`tab-${targetTab}`).classList.add('active');
+            const activeNav = document.getElementById(`nav-${targetTab}`);
+            activeNav.classList.remove('text-gray-500');
+            activeNav.classList.add('text-theme-green');
+        }
+
+        function switchWeeklyTab(tab) {
+            const btnCurrent = document.getElementById('btn-wk-current');
+            const btnPast = document.getElementById('btn-wk-past');
+            const contentCurrent = document.getElementById('wk-tab-current');
+            const contentPast = document.getElementById('wk-tab-past');
+
+            if (tab === 'current') {
+                btnCurrent.classList.replace('bg-transparent', 'bg-white/10');
+                btnCurrent.classList.replace('text-gray-500', 'text-white');
+                btnPast.classList.replace('bg-white/10', 'bg-transparent');
+                btnPast.classList.replace('text-white', 'text-gray-500');
+                contentCurrent.classList.remove('hidden');
+                contentPast.classList.add('hidden');
+            } else {
+                btnPast.classList.replace('bg-transparent', 'bg-white/10');
+                btnPast.classList.replace('text-gray-500', 'text-white');
+                btnCurrent.classList.replace('bg-white/10', 'bg-transparent');
+                btnCurrent.classList.replace('text-white', 'text-gray-500');
+                contentPast.classList.remove('hidden');
+                contentCurrent.classList.add('hidden');
+            }
+        }
+        
+        function toggleLeaderboard(type) {
+            const btnRefs = document.getElementById('btn-lb-referrals');
+            const btnEarners = document.getElementById('btn-lb-earners');
+            const values = document.querySelectorAll('.lb-value');
+
+            if (type === 'referrals') {
+                btnRefs.classList.replace('bg-transparent', 'bg-white/10');
+                btnRefs.classList.replace('text-gray-500', 'text-white');
+                btnEarners.classList.replace('bg-white/10', 'bg-transparent');
+                btnEarners.classList.replace('text-white', 'text-gray-500');
+                const refData = ['1,405 refs', '982 refs'];
+                values.forEach((el, index) => { if(refData[index]) el.innerText = refData[index]; });
+            } else {
+                btnEarners.classList.replace('bg-transparent', 'bg-white/10');
+                btnEarners.classList.replace('text-gray-500', 'text-white');
+                btnRefs.classList.replace('bg-white/10', 'bg-transparent');
+                btnRefs.classList.replace('text-white', 'text-gray-500');
+                const ptsData = ['8.5M pts', '6.2M pts'];
+                values.forEach((el, index) => { if(ptsData[index]) el.innerText = ptsData[index]; });
+            }
+        }
+
+        // Utils
+        function copyLink() {
+            const btnText = document.getElementById('copy-text');
+            const originalText = btnText.innerText;
+            try {
+                const dummy = document.createElement("textarea");
+                document.body.appendChild(dummy);
+                dummy.value = "https://t.me/OasisCoinBot?start=ref_Guntr_01";
+                dummy.select();
+                document.execCommand("copy");
+                document.body.removeChild(dummy);
+                btnText.innerText = "Copied!";
+                setTimeout(() => { btnText.innerText = originalText; }, 2000);
+            } catch (err) {}
+        }
+
+        function updateCountdown() {
+            const el = document.getElementById('countdown');
+            if(!el) return;
+            let now = new Date();
+            let target = new Date();
+            target.setHours(22, 0, 0, 0);
+            if (now > target) target.setDate(target.getDate() + 1);
+            let diff = target - now;
+            let h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            let s = Math.floor((diff % (1000 * 60)) / 1000);
+            el.innerText = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
